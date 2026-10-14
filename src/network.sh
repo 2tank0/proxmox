@@ -182,7 +182,7 @@ addUpstream() {
 detectAddresses() {
 
   GATEWAY=$(defaultGateway "$DEV")
-  { UPLINK=$(ip address show dev "$DEV" | grep inet | awk '/inet / { print $2 }' | cut -f1 -d/ | head -n 1); } 2>/dev/null || :
+  { UPLINK=$(ip -4 -o address show dev "$DEV" | awk 'NR == 1 { sub(/\/.*/, "", $4); print $4 }'); } 2>/dev/null || :
 
   IP6=""
 
